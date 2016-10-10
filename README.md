@@ -1,8 +1,12 @@
-# Setting up an Ethereum Parity node on a QNAP NAS
+# Setting up an Ethereum Parity node on a QNAP NAS with Docker
 
 ## Introduction
 
-By [popular](https://gitter.im/ethcore/parity?at=57fac0fb70fcb5db0c42167b) [demand](https://gitter.im/ethcore/parity?at=57f6c5d6d6251fd1269a659c), I'm documenting my adventures in setting up an Ethereum Parity node on a home NAS box. For an encore I linked it to https://ethstats.net/.
+By [popular](https://gitter.im/ethcore/parity?at=57fac0fb70fcb5db0c42167b) [demand](https://gitter.im/ethcore/parity?at=57f6c5d6d6251fd1269a659c), I'm documenting my adventures in setting up an Ethereum Parity node on a home NAS box. For an encore I linked it to the [Ethereum Network Status page](https://ethstats.net/).
+
+Since I'm exclusively using Docker in the below, then it should pretty much translate directly across to other Docker supporting platforms, at least the command-line bits, but no promises.
+
+There seems to a dearth of straight-forward "how-to"s on this kind of stuff, although I did find[this] (https://medium.com/@preitsma/setting-up-a-parity-ethereum-node-in-docker-and-connect-safely-f881faa17686) very helpful in getting started. Anyway, I hope this helps. 
 
 ## Disclaimer
 
@@ -102,17 +106,6 @@ cat CONTAINER_ID/memory.limit_in_bytes
 
 You can also try running `docker stats` on a container, though I've had odd results when running multiple containers. More info [here](https://www.datadoghq.com/blog/how-to-collect-docker-metrics/#toc-stats-command6).
 
-## Opening the RPC port
-
-Since I am running on a private network behind a NAT gateway, I'm reasonably comfortable opening up Parity's RPC port to allow other devices on my network to execute commands on the node. I used [this page](https://medium.com/@preitsma/setting-up-a-parity-ethereum-node-in-docker-and-connect-safely-f881faa17686) as a guide.
-```
-docker run -d -p 0.0.0.0:8545:8545 --name my_parity_latest ethcore/parity:latest --jsonrpc-interface all --jsonrpc-hosts all
-```
-
-Now, accessing this interface to do useful things from other PCs is a whole other story, which I might write up one day. But it's beyond my scope here.
-
-TODO: show the docker-compose.yml lines for this.
-
 # Linking with _ethstats.net_
 
 ## Introduction
@@ -165,7 +158,6 @@ In the _docker-compose.yml_ file for _my\_ethnetintel_ we add some port assignme
 ports:
     - '30303:30303'
     - '30303:30303/udp'
-    - '8545:8545'
 ```
 
 This exposes to the NAS host all the useful ports used by Parity.
@@ -199,14 +191,13 @@ ethereum-node:
   ports:
     - '30303:30303'
     - '30303:30303/udp'
-    - '8545:8545'
 ```
 
 To get them running I do `docker-compose up -d` for the Ethereum Network Intelligence container, and, once it's running, the same again for the Parity container. Then I have to manually manage the resource settings in the QNAP GUI since I haven't figured out how to set them in the docker compose file yet. See _Todo_ below!
 
 ## Resource setting
 
-The _ethnetintel_ container seems fairly light-weight. I've currently allocated it 256MB, and it's actually using about half that, and I've given it a 20% CPU cap. Both these settings are currently made in the QNAP _Container Station_ GUI and need to be redone every time the container is updated.
+The _my\_ethnetintel_ container seems fairly light-weight. I've currently allocated it 256MB, and it's actually using about half that, and I've given it a 20% CPU cap. Both these settings are currently made in the QNAP _Container Station_ GUI and need to be redone every time the container is updated.
 
 # Todo
 
