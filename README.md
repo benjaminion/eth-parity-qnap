@@ -1,4 +1,4 @@
-# Setting up an Ethereum Parity node on a QNAP NAS with Docker [Draft]
+# Setting up an Ethereum Parity node on a QNAP NAS with Docker, and linking with the Ethereum Network Status dashboard [Draft]
 
 _Note that this remains something of a draft. Currently my node is struggling to stay up due to a network attack that is drastically increasing memory consumption. If/when things are stabilised, I'll be able to revise this more._
 
