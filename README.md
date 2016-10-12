@@ -52,7 +52,7 @@ To avoid this, it is necessary to store the blockchain data outside the Parity c
 
 ### Copying the blockchain out of the container
 
-This requires running a command line on the NAS. I use `ssh` to log in as admin, but there is also an app that provides a command line in a browser window if you like. TODO - what is this app's name?
+This requires running a command line on the NAS. I use `ssh` to log in as admin, but the QNAP also an app that provides a command line in a browser window if you like. It's called _shellinabox_.
 
 First, use `docker cp` to copy the blockchain data you've already downloaded out of the container onto the NAS's own filesystem. I stopped the Parity container to do this, but I believe this may not be necessary.
 
@@ -247,6 +247,8 @@ To add this flag (and to use run-time options in general), put the following lin
 ```
 
 Now it will resync from scratch. I did copy my old blockchain database first (rename the parity/9xxxx TODO directory) just in case I want to come back to it later.  I'm re-syncing now and will update with the outcome.
+
+I've also ordered a memory upgrade!
 
 # Todo
 
